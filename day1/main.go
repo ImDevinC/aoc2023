@@ -3,14 +3,12 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strconv"
 )
 
-var rePart1 = regexp.MustCompile(`\d`)
-var rePart2 = regexp.MustCompile(`(\d|one|two|three|four|five|six|seven|eight|nine)`)
+var re = regexp.MustCompile(`(\d|one|two|three|four|five|six|seven|eight|nine)`)
 
 var words = map[string]string{
 	"one":   "1",
@@ -25,22 +23,6 @@ var words = map[string]string{
 }
 
 func main() {
-	if len(os.Args) != 2 {
-		log.Println("Usage: go run main.go <part1|part2>")
-		return
-	}
-
-	re := &regexp.Regexp{}
-
-	if os.Args[1] == "part1" {
-		re = rePart1
-	} else if os.Args[1] == "part2" {
-		re = rePart2
-	} else {
-		log.Println("Usage: go run main.go <part1|part2>")
-		return
-	}
-
 	readFile, _ := os.Open("input1.txt")
 	defer readFile.Close()
 	fileScanner := bufio.NewScanner(readFile)
@@ -49,14 +31,14 @@ func main() {
 	calibration := 0
 	for fileScanner.Scan() {
 		input := fileScanner.Text()
-		val := getValues(re, input)
+		val := getValues(input)
 		fmt.Printf("Input: %s, Value: %d\n", input, val)
 		calibration += val
 	}
 	fmt.Println(calibration)
 }
 
-func getValues(re *regexp.Regexp, input string) int {
+func getValues(input string) int {
 	match := re.FindString(input)
 	var value string
 	if val, exists := words[match]; exists {
