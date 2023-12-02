@@ -8,12 +8,6 @@ import (
 	"strconv"
 )
 
-var valid = map[string]int{
-	"red":   12,
-	"green": 13,
-	"blue":  14,
-}
-
 var blueRe = regexp.MustCompile(`(\d+) blue`)
 var redRe = regexp.MustCompile(`(\d+) red`)
 var greenRe = regexp.MustCompile(`(\d+) green`)
